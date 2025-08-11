@@ -3,10 +3,14 @@ import string
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 from nltk.corpus import stopwords
+from textblob.np_extractors import ConllExtractor
+from textblob import TextBlob
 
 nltk.download('vader_lexicon', quiet=True)
 nltk.download('punkt', quiet=True)
 nltk.download('stopwords', quiet=True)
+
+extractor = ConllExtractor()
 
 class DoraBot:
     def __init__(self):
@@ -86,7 +90,18 @@ class DoraBot:
             if user_input.lower() == "bye":
                 print("It was nice talking to you. Take care! 👋")
                 break
+            
+            user_input_blob = TextBlob(user_input, np_extractor=extractor)
 
+            if user_input_blob.polarity <= -0.5:
+                print("Oh dear, that sounds bad. ")
+            elif user_input_blob.polarity <= 0:
+                print("Hmm, that's not great. ")
+            elif user_input_blob.polarity <= 0.5:
+                print("Well, that sounds positive. ")
+            elif user_input_blob.polarity <= 1:
+                print("Wow, that sounds great. ")
+            
             response = self.respond(user_input)
             print(response)
 
