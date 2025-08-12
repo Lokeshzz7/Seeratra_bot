@@ -93,6 +93,8 @@ class DoraBot:
             
             user_input_blob = TextBlob(user_input, np_extractor=extractor)
 
+            test = TextBlob(user_input)
+
             if user_input_blob.polarity <= -0.5:
                 print("Oh dear, that sounds bad. ")
             elif user_input_blob.polarity <= 0:
@@ -104,6 +106,8 @@ class DoraBot:
             
             response = self.respond(user_input)
             print(response)
+            translated = test.sentiment
+            print(str(translated))
 
 if __name__ == "__main__":
     bot = DoraBot()
